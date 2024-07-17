@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Page Title</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <style>
+	body{
+		background-color:lavenderblush;
+	}
+	a{
+		text-decoration: none;
+		color: white;
+		font-weight: bold;
+	}
+	.main{
+		border: 2px solid teal;
+		width: 50%;
+	    background-color:burlywood;
+        padding: 20px;
+		margin:50px 400px; 
+		align-items: center;
+	}
+	#btn{
+		margin-bottom: 20px;
+		text-align: center;
+	}
+	button{
+		margin-top: 10px;
+		padding: 10px 20px;
+		
+		border: none;
+		border-radius: 10px;
+	}
+	th,h1{
+		color:darkcyan;
+	}h2{
+		color: rebeccapurple;
+	}
+	th,td{
+		padding: 10px;
+	}
+ </style>
+</head>
+<body>
+	
+	<h1 align="center">Employee Management System</h1>
+	<div style="margin-left: 75%;">
+	<button class="btn-primary" id="update" onclick="return update()"><a  href="updateemployee">update</a></button>
+	<button class="btn-danger" id="delete" onclick="return deletee()"><a  href="deleteemployee">delete</a></button>
+	<button class="btn-info"><a href="display" id="dispaly" onclick="return display()">Display</a></button>
+	<button class="" id="adde" onclick="return add()" style="background-color: royalblue;"><a  href="add">Signin</a></button>
+	</div>						
+	<div class="main">
+		<h2 align="center">Employee Details</h2><br>
+	<table border="1" rules="all" align="center">
+			<thead>
+				<tr>
+					<th>Emp id</th>
+					<th>name</th>
+					<th>address</th>
+					<th>designation</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="emp:${employee}">
+					<td th:text="${emp.emp_id}"></td>
+					<td th:text="${emp.name}"></td>
+					<td th:text="${emp.address}"></td> 
+					<td th:text="${emp.designation}"></td> 
+				</tr>
+			</tbody>
+		</table>
+		</div>
+		
+		<script>
+				function update(){
+					$.ajax({
+						url:"updateemployee",
+						type:"GET",
+						dataType:"json",
+					});
+				}
+					function deletee(){
+					$.ajax({
+						url:"deleteemployee",
+						type:"GET",
+						dataType:"json",
+						});
+				}
+			function display(){
+					$.ajax({
+						url:"display",
+						type:"GET",
+						})
+			}
+			function add(){
+				$.ajax({
+					url:"add",
+					type:"GET",
+				});
+			}
+		</script>
+</body>
+</html>

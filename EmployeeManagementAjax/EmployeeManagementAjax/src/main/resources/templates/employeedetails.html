@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: aliceblue;
+        }
+        .emp {
+            border: 2px solid teal;
+            width: 50%;
+            margin-top: 50px; 
+            background-color:burlywood;
+            padding: 20px; 
+        }
+        label {
+            color: purple;
+        }
+		a{
+			text-decoration: none;
+			color: white;
+			font-weight: bold;
+			}p{
+				color: red;
+				text-align: center;
+			}
+    </style>
+</head>
+<body>
+    <div class="container emp">
+        <h2 align="center">Employee Details Form</h2>
+        <form action="save" method="post">
+            <div class=""form-group>
+                <label for="emp_id">Emp id</label>
+                <input type="text" name="emp_id"  class="form-control" placeholder="BCITSXXXXX">
+				<p th:text="${errs}" ></p>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name"  class="form-control" required>
+				<p th:text="${errn}" ></p>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" class="form-control" >
+            </div>
+            <div class="form-group">
+                <label for="designation">Designation</label>
+                <input type="text" id="designation" name="designation"  class="form-control">
+            </div>
+			<div class="form-group">
+			    <label for="password">Password</label>
+			    <input type="password" id="password" name="password"  class="form-control" required>
+				<p th:text="${errp}" ></p>
+			</div>
+            <div class="form-group">
+                <label for="salary">Salary</label>
+                <input type="text" id="salary" name="salary" class="form-control" >
+            </div>
+            <button type="submit" class="btn btn-primary" onsubmit="return signIn()">Signin</button>&nbsp;&nbsp;
+			<a href="log" style="color:blue ;" onclick="return login()">If Already have Account?login</a>
+        </form>
+    </div>
+	<script>
+		function signIn() {		   			
+			var emp_id = $("#emp_id").val();                 
+			var password=$("#password").val();
+			var name=$("#name").val();
+			var address=$("#address").val();
+			var salary=$("#salary").val();
+			var designation=$("#designation").val();
+			$.ajax({
+				url: "save", 		                   
+				type: "post",	                       
+				dataType: "json",	                     
+				async: false,	                      
+				data: {	                       
+					emp_id: emp_id,
+					password:password,
+					salary:salary,  
+					address:address,
+					name:name,
+					designation:designation                
+				},
+			});
+	}
+					
+		function login(){
+			$.ajax({
+				url:"log",
+				type:"GET"
+			})
+		}
+		
+	</script>
+</body>
+</html>

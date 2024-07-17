@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container emp">
+    <form id="empForm" action="updatebyid" method="POST">
+        <div class="form-group">
+            <label for="emp_id">Emp id</label>
+            <input type="text" id="emp_id" name="emp_id" class="form-control" placeholder="BCITSXXXXX">
+        </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="empId()">Submit</button>
+    </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Employee Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="employeeForm" action="updatee">
+                    <input type="hidden" id="id" name="id" value="" />
+
+                    <div class="form-group">
+                        <label for="emp_id_modal">Emp ID</label>
+                        <input type="text" id="emp_id_modal" name="emp_id" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="designation">Designation</label>
+                        <input type="text" id="designation" name="designation" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="salary">Salary</label>
+                        <input type="text" id="salary" name="salary" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary"  onclick="return  updateEmployee()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    function empId() {
+        var emp_id = $("#emp_id").val(); // Get value from input field with id 'emp_id'
+        $.ajax({
+            url: "updatebyid",
+            type: "POST",
+            dataType: "json",
+            data: {
+                emp_id: emp_id
+            },
+			success: function(response) {
+			    alert(JSON.stringify(response)); // Check if response is correct
+
+			    // Set input values in the modal form
+			    $("#emp_id_modal").val(response.emp_id); // Example for a readonly field
+
+			    // For regular input fields
+			    $("#name").val(response.name);
+			    $("#address").val(response.address);
+			    $("#designation").val(response.designation);
+			    $("#salary").val(response.salary);
+				$("#id").val(response.id);
+				$("#password").val(response.password);
+			},
+
+            error: function(xhr, status, error) {
+				$('#exampleModal').modal('hide');
+				$("#emp_id").val("");
+				alert("employee not founD")
+                console.error("AJAX request failed:", status, error);
+            }
+        });
+    }
+
+    function updateEmployee() {
+        var emp_id = $("#emp_id_modal").val();
+        var password = $("#password").val();
+        var name = $("#name").val();
+        var address = $("#address").val();
+        var salary = $("#salary").val();
+        var designation = $("#designation").val();
+        var id = $("#id").val();
+        $.ajax({
+            url: "updatee",
+            type: "POST",
+            dataType: "text",
+            data: {
+                emp_id: emp_id,
+                password: password,
+                salary: salary,
+                address: address,
+                name: name,
+                designation: designation,
+                id: id
+            },
+            success: function(response) {
+				alert("updated successfully");
+				//location.reload();
+				window.location.href = 'http://localhost:8080/in';
+				$("#emp_id").val("");
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX request failed:", status, error);
+            }
+        });
+    }
+</script>
+</body>
+</html>

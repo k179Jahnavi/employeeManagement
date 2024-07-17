@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<title>Page Title</title>
+<style>
+	body{
+		background-color:honeydew;
+	}
+	.emp{
+		width: 50%;
+		margin-top:20px;
+		background-color: mistyrose;
+		padding: 20px;
+	}
+	a{
+			text-decoration: none;
+			color: white;
+			font-weight: bold;
+	}button{
+		display: block;
+		margin-left: auto;
+		margin-right: 100px;
+		border: none;
+		background-color: brown;
+		padding: 10px;
+		border-radius: 15px;
+	}
+</style>
+</head>
+<body>
+	<h2 align="center">Update Employee Details</h2>
+	<button class="btn-secondary"><a href="home">Home</a></button>
+	<div class="container emp">
+	        <form action="updatebyid">
+	            <div class="form-group">
+	                <label for="emp_id">Emp id</label>
+	                <input type="text" name="emp_id"  class="form-control" placeholder="BCITS90876">
+					<p th:text="${errmsg}" style="color: red; text-align: center;"></p>
+	            </div>
+	            <button type="submit" id="btnupdate" class="btn btn-primary" onsubmit="return empId()">Submit</button>
+	        </form>
+	    </div>
+		<div th:if="${employee} != null" class="container emp" style="background-color: aqua;">
+		       <form action="updatee" th:modelAttribute="employee">
+				<div class="form-group">
+		               <input type="hidden" name="id" th:value="${employee.id}"  class="form-control">
+				</div>
+		           <div class="form-group">
+		               <label for="emp_id">Emp id</label>
+		               <input type="text" name="emp_id" th:value="${employee.emp_id}"  class="form-control" placeholder="BCITS90876" readonly>
+		           </div>
+		           <div class="form-group">
+		               <label for="name">Name</label>
+		               <input type="text" id="name" name="name" th:value="${employee.name}" class="form-control" required>
+		           </div>
+		           <div class="form-group">
+		               <label for="address">Address</label>
+		               <input type="text" id="address" name="address" th:value="${employee.address}" class="form-control" >
+		           </div>
+		           <div class="form-group">
+		               <label for="designation">Designation</label>
+		               <input type="text" id="designation" name="designation" th:value="${employee.designation}" class="form-control">
+		           </div>
+				<div class="form-group">
+				    <label for="password">Password</label>
+				    <input type="password" id="password" name="password" th:value="${employee.password}" class="form-control" required>
+				</div>
+		           <div class="form-group">
+		               <label for="salary">Salary</label>
+		               <input type="text" id="salary" name="salary" th:value="${employee.salary}" class="form-control" >
+		           </div>
+		           <button type="submit" class="btn btn-primary" id="update" onsubmit="return updatedEmployee()">UPDATE</button>
+		       </form>
+		   </div>
+		   
+ <script>
+	 function empId() {		   			
+		var emp_id = $("#emp_id").val();                  
+		$.ajax({
+		url: "updatebyid", 	                   
+		type: "POST",	                       
+		dataType: "json",	                     
+		async: false,	                      
+		data: {	                       
+			emp_id: emp_id               
+		},
+			});
+	}
+	 function updatedEmployee() {		   			 
+   			var emp_id = $("#emp_id").val();	                  
+   			var password=$("#password").val();
+   			var name=$("#name").val();
+   			var address=$("#address").val();
+   			var salary=$("#salary").val();
+   			var designation=$("#designation").val();
+			var id=$("#id").val();
+   			$.ajax({
+   			url: "updatee", 	                   
+   			type: "POST",	                       
+   			dataType: "json",	                     
+   			async: false,	                      
+   			data: {	                       
+   				emp_id: emp_id,
+   				password:password,
+   				salary:salary,  
+   				address:address,
+   				name:name,
+   				designation:designation, 
+				id:id               
+   			},
+
+   			success: function(employees) {
+			Console.log("success")
+   			},
+
+   			error: function(xhr, status, error) {
+   					 console.error("AJAX request failed:", status, error);
+   				}
+   				});
+   			}
+		 function home(){
+			$.ajax({
+				url:"home", 
+				type:"GET"
+			})
+		}
+												
+</script>
+</body>
+</html>

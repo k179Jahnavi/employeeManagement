@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style type="text/css">
+		body {
+			background-color: buttonface;
+       }
+       .loginmain{
+       	border: 2px solid teal;
+       	width: 25%;
+       	margin-top:200px;
+       	background-color:silver;
+       	}
+       	div,label{
+       	margin-bottom: 10px;
+       	}
+       	label{
+       		color: purple;
+       	}
+	</style>
+  </head>
+  <body>
+	
+	<div class="container-fluid loginmain" align="center">	
+		<form action="loginP" method="post">
+		<h1 class="text-center" style="margin-bottom: 20px;color:navy;">Login</h1>
+		<div>
+			<div class="mb-3">
+				<label for="emp_id" class="form-label">Emp ID</label><br>
+				<input id="emp_id" type="text" class="form-control-sm" name="emp_id">
+			</div>
+			<dv>
+				<label for="password" class="form-label">Password</label><br>
+				<input id="password" type="password" class="form-control-sm" name="password"->
+			</dv>
+				<p th:text="${errmsg}" style="color: red;"></p>
+			<div class="mb-3">
+				<button class="btn-primary btnlogin" type="submit" onsubmit="return login()">login</button>
+			</div>
+			<div class="mb-3">
+			    <a href="add" id="signin" onclick="return signin()"><small>If account is not there?</small>Sigin</a>
+			</div>
+		</div>
+		</form>
+	</div>
+	
+	<div id="h"></div>
+	
+	<script>
+		 function login() {		   			
+			var emp_id = $("#emp_id").val();		                  
+			var password=$("#password").val();
+			$.ajax({
+			url: "loginP", 	                   
+			type: "GET",	                       
+			dataType: "json",	                     
+			async: false,	                      
+			data: {	                       
+				emp_id: emp_id,
+				password:password                      
+			},
+				});
+		}
+		 function signin() {		   			
+				$.ajax({
+				url: "add", 	                   
+				type: "POST",	                       
+				async: false,	                      
+				success: function(response) {
+				$("#name").html("Name "+response.name);
+				},
+
+				error: function(xhr, status, error) {
+						 console.error("AJAX request failed:", status, error);
+					}
+					});
+				}
+	</script>	
+  </body>
+</html>
